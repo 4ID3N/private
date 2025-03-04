@@ -1,18 +1,32 @@
-local WhitelistedUsers = { "Energyisshort3" }
+local WhitelistedUsers = {
+    estriox = true,
+    stzpw = true,
+    YoViperPlays = true,
+    OptimallyShaddy = true,
+    IllIIIllIlllIIlII = true
+}
 
-local function isWhitelisted(username)
-    for _, allowed in ipairs(WhitelistedUsers) do
-        if username == allowed then
-            return true
-        end
-    end
-    return false
-end
+local Players = game:GetService("Players")
+repeat wait() until Players.LocalPlayer  -- Ensure LocalPlayer is ready
+local player = Players.LocalPlayer
+local StarterGui = game:GetService("StarterGui")
 
-local player = game:GetService("Players").LocalPlayer
+-- Ensure notifications are enabled
+pcall(function() StarterGui:SetCore("SendNotification", { Title = "Test", Text = "Checking notifications...", Duration = 2 }) end)
 
-if isWhitelisted(player.Name) then
+if WhitelistedUsers[player.Name] then
+    StarterGui:SetCore("SendNotification", {
+        Title = "Access Granted",
+        Text = "Welcome, " .. player.Name .. "! Script loading...",
+        Duration = 10
+    })
+    
+    -- Load the main script
     loadstring(game:HttpGet("https://raw.githubusercontent.com/h4llstar/VapeV4ForRoblox/main/NewMainScript.lua", true))()
 else
-    warn("You are not whitelisted to use this script.")
+    StarterGui:SetCore("SendNotification", {
+        Title = "Access Denied",
+        Text = "You are not whitelisted to use this script.",
+        Duration = 15
+    })
 end
